@@ -5,6 +5,7 @@ import com.simibubi.create.foundation.item.ItemDescription;
 import com.simibubi.create.foundation.item.KineticStats;
 import com.simibubi.create.foundation.item.TooltipModifier;
 import com.wren.boardsandboxes.index.CBBCreativeTabs;
+import com.wren.boardsandboxes.index.CBBItems;
 import net.createmod.catnip.lang.FontHelper;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -35,14 +36,14 @@ public class CreateBoardsandBoxes {
             );
 
     public CreateBoardsandBoxes(IEventBus modEventBus, ModContainer modContainer) {
+        modEventBus.addListener(this::commonSetup);
+
+        NeoForge.EVENT_BUS.register(this);
 
         REGISTRATE.registerEventListeners(modEventBus);
 
         CBBCreativeTabs.register(modEventBus);
-
-        modEventBus.addListener(this::commonSetup);
-
-        NeoForge.EVENT_BUS.register(this);
+        CBBItems.register();
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {
@@ -56,6 +57,14 @@ public class CreateBoardsandBoxes {
 
     public static ResourceLocation asResource(String path) {
         return ResourceLocation.fromNamespaceAndPath(MODID, path);
+    }
+
+    public static ResourceLocation asModelResource(String path) {
+        return ResourceLocation.fromNamespaceAndPath(MODID, "models/" + path);
+    }
+
+    public static ResourceLocation asTextureResource(String path) {
+        return ResourceLocation.fromNamespaceAndPath(MODID, "textures/" + path);
     }
 
     public static CreateRegistrate registrate() {
